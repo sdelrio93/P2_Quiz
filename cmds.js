@@ -89,13 +89,13 @@ exports.testCmd = (rl,id) => {
 		rl.prompt();
 	} else {
 		try {
-			const quiz = model.getByIndex(id);
-			rl.question(colorize(`${quiz.question}`, 'red'), respuesta => {
-				//var answ1 =quiz.answer.toLowerCase();
-				//var answ2 = quiz.answer.toUpperCase();
-				//var answ3 = getCleanedString(quiz.answer);
+			var quiz = model.getByIndex(id);
+			rl.question(colorize(`${quiz.question}`, 'red'), answer => {
 
-				if(respuesta.trim()==quiz.answer){
+				var answerPlayer = answer.toLowerCase().trim();
+				var answerReal = quiz.answer.toLowerCase().trim();		
+
+				if(answerPlayer=== answerReal){
 					biglog("Correcta", "green");
 					rl.prompt();
 				}else{
@@ -154,8 +154,8 @@ exports.editCmd = (rl,id) => {
 };
 
 exports.playCmd = rl => {
-	log('Jugar.','red');
-	rl.prompt();
+	
+
 };
 
 exports.creditsCmd = rl => {
