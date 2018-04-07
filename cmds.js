@@ -154,7 +154,53 @@ exports.editCmd = (rl,id) => {
 };
 
 exports.playCmd = rl => {
-	
+
+	if(model.count() ==0){
+		log('No hay preguntas para jugar');
+		rl.prompt();
+		return;
+	}
+
+	var points = 0;
+	var toBeResolved = [];
+	toBeResolved.lenght = model.count();
+	var long = toBeResolved.lenght;
+
+	for (var i = 0; i < toBeResolved.lenght; i++) {
+		toBeResolved.push(i);
+	}
+
+	const playOne = () => {
+
+		var randomId = Math.floor(Math.random()*(long -points)); //nº al azar para el array de id
+		var idRandom = toBeResolved[randomId];
+		const quiz = model.getByIndex(idRandom);
+
+		log(`${quiz.question} ?`);
+		rl.question('Introduce la respuesta: ', answer =>{
+			var answerPlayer = answer.toLowerCase().trim();
+			var answerReal = acentos(quiz.answer.toLowerCase().trim());
+
+			if( answerPlayer === answerReal){
+				++points;
+				log(`u respuesta es: CORRECTA. Lleva ${points}`);
+				if(points<long){
+					toBeResolved.splice(randomId,1);
+					rl.prompt();
+					playOne();
+				} else {
+					log(`HAS ACERTDO TODAS LAS PREGUNTAS, ENHORABUENA!!`);
+					rl.prompt();
+				}
+			} else {
+				log(`Su respuesta es : INCORRECTA`);
+				log(`Ha acertado: ${points} de ${long} preguntas`);
+				log(`FIN DEL JUEGO`,'red');
+				rl.prompt();
+			}
+		});
+	}
+	playOne();	
 
 };
 
