@@ -93,7 +93,7 @@ exports.testCmd = (rl,id) => {
 			rl.question(colorize(`${quiz.question}`, 'red'), answer => {
 
 				var answerPlayer = answer.toLowerCase().trim();
-				var answerReal = quiz.answer.toLowerCase().trim();		
+				var answerReal = acentos(quiz.answer.toLowerCase().trim());		
 
 				if(answerPlayer=== answerReal){
 					biglog("Correcta", "green");
@@ -169,3 +169,11 @@ exports.quitCmd = rl => {
 	rl.close();
 	rl.prompt();
 };
+function acentos(cadena){
+	cadena = cadena.replace(/á/gi,"a");
+    cadena = cadena.replace(/é/gi,"e");
+    cadena = cadena.replace(/í/gi,"i");
+    cadena = cadena.replace(/ó/gi,"o");
+    cadena = cadena.replace(/ú/gi,"u");
+    return cadena;
+}
